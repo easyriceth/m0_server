@@ -10,53 +10,66 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(cors())
 
 const port = 8888
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-//app.use(cors())
 
 app.post('/save_RICE_INFERENCE', (req, res) => {
 
-    
     let data = req.body
+    if (data?.arguments?.imageURL) {
+        const imageProcess = axios.post("http://103.253.75.254:4001/inference/",
+            {
+                image: data.arguments.imageURL
+            },
+        )
 
-    console.log(data)
-    const imageProcess = axios.post("http://103.253.75.254:4001/inference/", 
-    {
-        //headers: {"Access-Control-Allow-Origin": "*"},
-        image: data.arguments.imageURL
-    },
-   // headers: {"Access-Control-Allow-Origin": "*"}
-    )
-    imageProcess.then((response) => {
-        let inspectData = response.data
-        console.log(inspectData)
-        let argument = {
-            ...data.arguments,
-            dataInference: inspectData,
-        }
-        axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/save_RICE_INFERENCE"
-            , {
-                arguments: argument
+        imageProcess.then((response) => {
+            let inspectData = {}
+            if (response.data) {
+                Object.keys(response.data).map((keys) => {
+                    if (keys == 'whole_grain_kernel') {
+                        inspectData['wholegrain_kernel'] = response.data[keys]
+                    }
+                    if (keys == 'whole_grain_pixel') {
+                        inspectData['wholegrain_pixel'] = response.data[keys]
+                    }
+                    if (keys == 'grains') {
+                        inspectData[keys] = response.data[keys]
+                        if (Array.isArray(inspectData[keys])) {
+                            inspectData[keys].map((grain, idx) => {
+                                if (grain['shape'] == 'whole_grain') {
+                                    inspectData[keys][idx]['shape'] = 'wholegrain'
+                                } else if (grain['shape'] == 'broken_shape') {
+                                    inspectData[keys][idx]['shape'] = 'broken'
+                                }
+                            })
+                        } else {
+                            inspectData[keys] = response.data[keys]
+                        }
+                    } else {
+                        inspectData[keys] = response.data[keys]
+                    }
+                })
+                let argument = {
+                    ...data.arguments,
+                    dataInference: inspectData,
+                }
+                axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/save_RICE_INFERENCE"
+                    , {
+                        arguments: argument
+                    }
+                ).then((data) => {
+                    res.json(data.data)
+                }).catch(() => {
+                    res.json('can not save data into database')
+                })
+            } else {
+                res.json('empty result from compute api')
             }
-        ).then((data) => {
-            console.log(data.data)
-            res.json(data.data)
-        }).catch(()=>{
-                res.json(argument)
+        }).catch(() => {
+            res.json('err connection to compute api')
         })
-    }).catch((err)=>{
-        console.log('err')
-        console.log(err)
-        res.json(err)
-    })
-    
-   // let data = 
-   // setTimeout(()=>{
-    //   res.json(data)
-   // },24000)
-//    res.json({'name' : 'helloworld'})
+    }else{
+        res.json('not found imageURL')
+    }
 })
 
 
