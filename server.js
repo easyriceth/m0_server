@@ -11,7 +11,7 @@ app.use(cors())
 
 const port = 8888
 
-app.post('/save_RICE_INFERENCE', (req, res) => {
+app.get('/save_RICE_INFERENCE', (req, res) => {
 
     let data = req.body
     if (data?.arguments?.imageURL) {
@@ -59,15 +59,19 @@ app.post('/save_RICE_INFERENCE', (req, res) => {
                 ).then((data) => {
                     res.json(data.data)
                 }).catch(() => {
+                    res.status(400)
                     res.json('can not save data into database')
                 })
             } else {
+                res.status(400)
                 res.json('empty result from compute api')
             }
         }).catch(() => {
+            res.status(400)
             res.json('err connection to compute api')
         })
     }else{
+        res.status(400)
         res.json('not found imageURL')
     }
 })
