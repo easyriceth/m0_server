@@ -70,15 +70,15 @@ app.post('/save_RICE_INFERENCE', (req, res) => {
             res.status(400)
             res.json('err connection to compute api')
         })
-    }else{
+    } else {
         res.status(400)
         res.json('not found imageURL')
     }
 })
 
 app.post('/save_RICE_INFERENCE_DEV', (req, res) => {
-
     let data = req.body
+    console.log(data)
     if (data?.arguments?.imageURL) {
         const imageProcess = axios.post("http://103.253.75.254:4001/inference/",
             {
@@ -113,6 +113,7 @@ app.post('/save_RICE_INFERENCE_DEV', (req, res) => {
                         inspectData[keys] = response.data[keys]
                     }
                 })
+                console.log('dev to lambda')
                 let argument = {
                     ...data.arguments,
                     dataInference: inspectData,
@@ -135,7 +136,7 @@ app.post('/save_RICE_INFERENCE_DEV', (req, res) => {
             res.status(400)
             res.json('err connection to compute api')
         })
-    }else{
+    } else {
         res.status(400)
         res.json('not found imageURL')
     }
