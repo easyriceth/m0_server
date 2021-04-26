@@ -11,7 +11,7 @@ app.use(cors())
 
 const port = 8888
 
-app.get('/save_RICE_INFERENCE', (req, res) => {
+app.post('/save_RICE_INFERENCE', (req, res) => {
 
     let data = req.body
     if (data?.arguments?.imageURL) {
@@ -76,7 +76,7 @@ app.get('/save_RICE_INFERENCE', (req, res) => {
     }
 })
 
-app.get('/save_RICE_INFERENCE_DEV', (req, res) => {
+app.post('/save_RICE_INFERENCE_DEV', (req, res) => {
 
     let data = req.body
     if (data?.arguments?.imageURL) {
