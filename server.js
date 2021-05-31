@@ -15,7 +15,7 @@ app.post('/save_RICE_INFERENCE', (req, res) => {
 
     let data = req.body
     if (data?.arguments?.imageURL) {
-        const imageProcess = axios.post("http://103.253.75.254:4001/inference/",
+        const imageProcess = axios.post("https://inference-dev.easyrice.tech/inference/",
             {
                 image: data.arguments.imageURL
             },
@@ -80,7 +80,7 @@ app.post('/save_RICE_INFERENCE_DEV', (req, res) => {
     let data = req.body
     console.log(data)
     if (data?.arguments?.imageURL) {
-        const imageProcess = axios.post("http://easyrice.thddns.net:4843/inference/",
+        const imageProcess = axios.post("https://inference-uat.easyrice.tech/inference/",
             {
                 image: data.arguments.imageURL
             },
