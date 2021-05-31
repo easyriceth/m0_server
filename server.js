@@ -184,7 +184,7 @@ app.post('/save_RICE_INFERENCE_UAT', (req, res) => {
                     ...data.arguments,
                     dataInference: inspectData,
                 }
-                axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/Dev_save_RICE_INFERENCE"
+                axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/UAT_save_RICE_INFERENCE"
                     , {
                         arguments: argument
                     }
