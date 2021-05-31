@@ -15,7 +15,7 @@ app.post('/save_RICE_INFERENCE', (req, res) => {
 
     let data = req.body
     if (data?.arguments?.imageURL) {
-        const imageProcess = axios.post("https://inference-dev.easyrice.tech/inference/",
+        const imageProcess = axios.post("http://103.253.75.254:4001/inference/",
             {
                 image: data.arguments.imageURL
             },
