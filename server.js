@@ -12,7 +12,7 @@ app.use(cors())
 const port = 8888
 
 app.post('/save_RICE_INFERENCE', (req, res) => {
-
+    console.log(Object.keys(req))
     let data = req.body
     if (data?.arguments?.imageURL) {
         const imageProcess = axios.post("http://103.253.75.254:4001/inference/",
@@ -50,7 +50,6 @@ app.post('/save_RICE_INFERENCE', (req, res) => {
                 })
                 let argument = {
                     ...data.arguments,
-                    dumpReq : req,
                     dataInference: inspectData,
                 }
                 axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/save_RICE_INFERENCE"
@@ -79,7 +78,7 @@ app.post('/save_RICE_INFERENCE', (req, res) => {
 
 app.post('/save_RICE_INFERENCE_DEV', (req, res) => {
     let data = req.body
-    console.log(data)
+    console.log(Object.keys(req))
     if (data?.arguments?.imageURL) {
         const imageProcess = axios.post("https://inference-dev.easyrice.tech/inference/",
             {
@@ -117,7 +116,6 @@ app.post('/save_RICE_INFERENCE_DEV', (req, res) => {
                 console.log('dev to lambda')
                 let argument = {
                     ...data,
-                    dumpReq : req,
                     dataInference: inspectData,
                 }
                 axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/Dev_save_RICE_INFERENCE"
@@ -146,7 +144,7 @@ app.post('/save_RICE_INFERENCE_DEV', (req, res) => {
 
 app.post('/save_RICE_INFERENCE_UAT', (req, res) => {
     let data = req.body
-    console.log(data)
+    console.log(Object.keys(req))
     if (data?.arguments?.imageURL) {
         const imageProcess = axios.post("https://inference-uat.easyrice.tech/inference/",
             {
@@ -184,7 +182,6 @@ app.post('/save_RICE_INFERENCE_UAT', (req, res) => {
                 console.log('dev to lambda')
                 let argument = {
                     ...data,
-                    dumpReq : req,
                     dataInference: inspectData,
                 }
                 axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/UAT_save_RICE_INFERENCE"
