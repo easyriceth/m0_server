@@ -50,6 +50,7 @@ app.post('/save_RICE_INFERENCE', (req, res) => {
                 })
                 let argument = {
                     ...data.arguments,
+                    ...data,
                     dataInference: inspectData,
                 }
                 axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/save_RICE_INFERENCE"
@@ -115,6 +116,7 @@ app.post('/save_RICE_INFERENCE_DEV', (req, res) => {
                 })
                 console.log('dev to lambda')
                 let argument = {
+                    ...data,
                     ...data.arguments,
                     dataInference: inspectData,
                 }
@@ -181,6 +183,7 @@ app.post('/save_RICE_INFERENCE_UAT', (req, res) => {
                 })
                 console.log('dev to lambda')
                 let argument = {
+                    ...data,
                     ...data.arguments,
                     dataInference: inspectData,
                 }
