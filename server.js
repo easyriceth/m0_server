@@ -50,11 +50,11 @@ app.post('/save_RICE_INFERENCE', (req, res) => {
                 })
                 let argument = {
                     ...data.arguments,
-                    headers : req.headers,
                     dataInference: inspectData,
                 }
                 axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/save_RICE_INFERENCE"
                     , {
+                        headers : req.headers,
                         arguments: argument
                     }
                 ).then((data) => {
@@ -116,13 +116,13 @@ app.post('/save_RICE_INFERENCE_DEV', (req, res) => {
                 })
                 console.log('dev to lambda')
                 let argument = {
-                    ...data,
-                    headers : req.headers,
+                    ...data.arguments,
                     dataInference: inspectData,
                 }
                 axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/Dev_save_RICE_INFERENCE"
                     , {
-                        arguments: argument
+                        headers : req.headers,
+                        arguments: argument,
                     }
                 ).then((data) => {
                     res.json(data.data)
@@ -183,12 +183,12 @@ app.post('/save_RICE_INFERENCE_UAT', (req, res) => {
                 })
                 console.log('dev to lambda')
                 let argument = {
-                    ...data,
-                    headers : req.headers,
+                    ...data.arguments,
                     dataInference: inspectData,
                 }
                 axios.post("https://4skomnp9df.execute-api.ap-southeast-1.amazonaws.com/default/UAT_save_RICE_INFERENCE"
                     , {
+                        headers : req.headers,
                         arguments: argument
                     }
                 ).then((data) => {
